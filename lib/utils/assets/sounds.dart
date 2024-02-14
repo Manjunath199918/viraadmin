@@ -1,0 +1,3 @@
+class KSounds {
+  KSounds._();
+}

@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "588712680383",
+    "firebase_url": "https://vira-f0488-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "vira-f0488",
+    "storage_bucket": "vira-f0488.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588712680383:android:0eec3207ad4fb313275f0a",
+        "android_client_info": {
+          "package_name": "com.android.vira"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnw2q-T8yBEhkap1kB3rYwjPTFNCyIjTo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588712680383:android:faaa243ee0fbf435275f0a",
+        "android_client_info": {
+          "package_name": "com.viraadmin.viraadmin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnw2q-T8yBEhkap1kB3rYwjPTFNCyIjTo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
