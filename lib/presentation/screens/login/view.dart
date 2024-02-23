@@ -61,13 +61,13 @@ class LoginScreen extends ConsumerWidget {
     });
 
     Widget type;
-    switch (1) {
+    switch (state.index) {
 
       case 0:
-        type =   HomeScreen();
+        type =  SignUp ();
         break;
       case 1:
-        type = const SignUp();
+        type =  HomeScreen();
         break;
 
       default:

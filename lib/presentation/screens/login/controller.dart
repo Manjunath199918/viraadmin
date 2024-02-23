@@ -105,6 +105,23 @@ class _LoginController extends StateNotifier<_LoginState> {
   void init() async {
     //requestTrackingPermission();
   }
+  setIndex()async{
+    final UserModel? userInfo = await persistentStorage.retrieve(
+        key: 'user_details',
+        decoder: (val) {
+          return UserModel.fromJson(jsonDecode(val));
+        });
+    if(userInfo==null){
+      state =state.copyWith(
+        index: 0
+      );
+    }
+    else{
+      state =state.copyWith(
+          index: 1
+      );
+    }
+  }
 
   int? _resendToken;
   String? _verificationCode;
@@ -366,7 +383,10 @@ class _LoginController extends StateNotifier<_LoginState> {
 
   void signUp(String userName, String passWord) async {
     String schoolCode = userName.substring(7, 11);
-
+    state =state.copyWith(
+      status: Busy()
+    );
+   // try{
     CollectionReference users =
         FirebaseFirestore.instance.collection('FACULTY$schoolCode');
     QuerySnapshot faculty =
@@ -375,14 +395,39 @@ class _LoginController extends StateNotifier<_LoginState> {
       _error('Please check your credential Once');
       _idle();
     } else {
-      Map<dynamic, dynamic> data = faculty.docs.first.data() as Map;
+      Map<String, dynamic> data = faculty.docs.first.data() as Map<String, dynamic>;
       if (data[Constants.passWord] == passWord) {
+       UserModel user = UserModel.fromJson(data);
+       await persistentStorage.store<UserModel>(
+          key: 'user_details',
+          data: user,
+          encoder: (val) {
+            return jsonEncode(val.toJson());
+          },
+        );
+       state =state.copyWith(
+         index: 1,
+           status: Idle()
+       );
+
 
       }else{
+        state =state.copyWith(
+
+            status: Idle()
+        );
         _error('Incorrect Password \n P.s:- The password is your date of birth');
         _idle();
       }
     }
+   // }catch(e){
+   //   state =state.copyWith(
+   //
+   //       status: Idle()
+   //   );
+   //   _error('Something Went Wrong \n Please try again later');
+   //   _idle();
+   // }
     // log(data.docs.first.data().toString());
 
     // String classCode = userName.substring(4, 8);

@@ -1,5 +1,7 @@
 part of '../view.dart';
 
+TextEditingController userNameController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
 class SignUp extends ConsumerStatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
@@ -46,8 +48,7 @@ class _SignUpState extends ConsumerState<SignUp>
 
     final state = ref.watch(_loginController(params));
     final stateController = ref.read(_loginController(params).notifier);
-    TextEditingController userNameController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
+
 
     return SafeArea(
       child: Scaffold(
@@ -180,7 +181,9 @@ class _SignUpState extends ConsumerState<SignUp>
                     horizontal: 20.toAutoScaledWidth,
                     vertical: 30.toAutoScaledHeight),
                 child: KFlatButton(
-                  loadingWidget:CircularProgressIndicator() ,
+                  loadingWidget:CircularProgressIndicator(
+                    color: currentTheme.themeBox.colors.white,
+                  ) ,
                     loading: state.status is Busy,
 
                     height: 55.toAutoScaledHeight,
@@ -212,9 +215,9 @@ class _SignUpState extends ConsumerState<SignUp>
                       //   Constants.id:users.id,
                       //
                       // });
-                      stateController.signUp('FACULTYPBAL001', '01/01/1999');
+                     stateController.signUp('FACULTYPBAL001', '01/06/1999');
                       // if (_formKey.currentState!.validate()) {
-                      //   stateController.signUp('ADMINPABL001', '01/01/1999');
+                      //   stateController.signUp(userNameController.text.trim().toUpperCase(), passwordController.text.trim());
                       // }
                     }),
               ),

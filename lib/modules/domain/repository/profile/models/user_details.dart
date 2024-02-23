@@ -31,14 +31,14 @@ class UserDetails {
       schoolName,
       teacherId,
       firstName;
-  DateTime? createdAt, updateAt, dateOfBirth;
+  String? createdAt, updateAt, dateOfBirth;
 
 
   factory UserDetails.fromJson(Map<String, dynamic> json) {
     return UserDetails(
         id: json['id'],
-        createdAt: json['crtdAt'],
-        dateOfBirth: json['dob'],
+        createdAt: json["crtdAt"].toString(),
+        dateOfBirth:json["dob"].toString(),
         emeregencyConatct: json['emercnct'],
         firstName: json['fstname'],
         lastName: json['lstname'],
@@ -47,7 +47,7 @@ class UserDetails {
         schoolId: json['schId'],
         schoolName: json['sclname'],
         teacherId: json['tchrId'],
-        updateAt: json['updtAt'],
+        updateAt:json["updtAt"].toString(),
         bloodGroup: json['bldgrp']
 
     );

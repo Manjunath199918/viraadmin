@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserModel {
   UserModel({
     required this.id,
@@ -30,14 +32,14 @@ class UserModel {
       schoolName,
       teacherId,
       firstName;
-  DateTime? createdAt, updateAt, dateOfBirth;
+  String? createdAt, updateAt, dateOfBirth;
 
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'],
-      createdAt: json['crtdAt'],
-      dateOfBirth: json['dob'],
+      createdAt: json["crtdAt"].toString(),
+      dateOfBirth:json["dob"].toString(),
       emeregencyConatct: json['emercnct'],
       firstName: json['fstname'],
       lastName: json['lstname'],
@@ -46,7 +48,7 @@ class UserModel {
       schoolId: json['schId'],
       schoolName: json['sclname'],
       teacherId: json['tchrId'],
-      updateAt: json['updtAt'],
+      updateAt:json["updtAt"].toString(),
       bloodGroup: json['bldgrp']
 
     );
