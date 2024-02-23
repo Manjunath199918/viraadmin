@@ -33,7 +33,7 @@ class KTextFormField extends ConsumerWidget {
   final Radius? cursorRadius;
   final void Function()? onTap;
   final String? Function(String?)? validator;
-  final String? title;
+  final String? title,hintText;
   final double? width,height,paddingLeft;
 
   const KTextFormField(
@@ -66,6 +66,7 @@ class KTextFormField extends ConsumerWidget {
       this.title,
       this.height,
       this.width,
+        this.hintText,
         this.paddingLeft})
       : super(key: key);
 
@@ -110,6 +111,7 @@ class KTextFormField extends ConsumerWidget {
                 minLines: minLines,
                 obscureText: obscureText,
                 maxLength: maxLength,
+
                 // style: style ?? _buildTextStyle(),
                 textAlign: textAlign,
                 readOnly: readOnly,

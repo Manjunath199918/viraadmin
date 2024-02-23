@@ -94,10 +94,10 @@ class KNotificationBoxImpl implements KNotificationBox {
     if (KAuth.instance.getters.authStatus == AuthStatus.authenticated) {
       UserModel? usr = await getUserFromPersistentStorage();
       UserDetails userDetails = UserDetails.getUserDetailsFromModel(usr!);
-      if (userDetails.fcmToken == null) {
-        String? tokens = await token;
-        _registerRefreshedTokenToBackend(tokens!);
-      }
+      // if (userDetails.fcmToken == null) {
+      //   String? tokens = await token;
+      //   _registerRefreshedTokenToBackend(tokens!);
+      // }
     }
   }
 
@@ -203,27 +203,27 @@ class KNotificationBoxImpl implements KNotificationBox {
   Future<void> _registerRefreshedTokenToBackend(String token) async {
     UserModel? usr = await getUserFromPersistentStorage();
     UserDetails userDetails = UserDetails.getUserDetailsFromModel(usr!);
-    userDetails.fcmToken = token;
+    // userDetails.fcmToken = token;
     UserModel userModel = UserModel(
       id: usr.id,
-      birthYear: usr.birthYear,
-      displayName: usr.displayName,
-      emailId: usr.emailId,
-      gender: usr.gender,
-      phoneNumber: usr.phoneNumber,
-      profilePhotoUrl: usr.profilePhotoUrl,
-      referCode: usr.referCode,
-      appSecurityPin: usr.appSecurityPin,
-      createTime: usr.createTime,
-      modifyTime: usr.modifyTime,
-      deviceOperatingSystem: usr.deviceOperatingSystem,
-      smsEnabled: usr.smsEnabled,
-      emailEnabled: usr.emailEnabled,
-      fcmToken: token,
-      referredBy: usr.referredBy,
-      contactEnabled: usr.contactEnabled,
-      oneTimeContactsSet: usr.oneTimeContactsSet,
-      kycCompleted: usr.kycCompleted,
+      bloodGroup: usr.bloodGroup,
+      dateOfBirth: usr.dateOfBirth,
+      emeregencyConatct: usr.emeregencyConatct,
+      firstName: usr.firstName,
+      lastName: usr.lastName,
+      passWord: usr.passWord,
+      schoolName: usr.schoolName,
+      schoolId: usr.schoolId,
+      schoolCode: usr.schoolCode,
+      createdAt: usr.createdAt,
+      updateAt: usr.updateAt,
+      teacherId: usr.teacherId,
+      // emailEnabled: usr.emailEnabled,
+      // fcmToken: token,
+      // referredBy: usr.referredBy,
+      // contactEnabled: usr.contactEnabled,
+      // oneTimeContactsSet: usr.oneTimeContactsSet,
+      // kycCompleted: usr.kycCompleted,
     );
     updateUserProfile(usr.id, userDetails, userModel);
   }

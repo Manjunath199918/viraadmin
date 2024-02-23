@@ -88,6 +88,11 @@ class _ViewController extends StateNotifier<_ViewState> {
     KAppX.router.navigate(Homework());
   }
   onTimeTablePressed()async{
+    // DocumentReference timetable =
+    // FirebaseFirestore.instance.collection('PBALFIRSTTIMETABLE').doc();
+    // await timetable.set({
+    //   'period1':['1',1,false]
+    // });
 
       // DocumentReference users =
       // FirebaseFirestore.instance.collection('PBALteachers').doc();
@@ -173,7 +178,7 @@ class _ViewController extends StateNotifier<_ViewState> {
 
     if (pickedDate != null) {
       String formattedDate =
-      DateFormat('yyyy-MM-dd').format(pickedDate);
+      DateFormat('dd/MM/yyyy').format(pickedDate);
       return formattedDate;
     } else {
       return null;

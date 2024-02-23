@@ -11,35 +11,56 @@ class TextField1 extends ConsumerWidget {
   final Widget? preffixWidget;
   final bool? isNumber;
   final int? maxlines;
+  final String? hintText;
+  final void Function()? onTap;
+  final String? initialValue;
+  final void Function(String)? onChanged;
+
   // TextEditingController textControllerThree=TextEditingController();
 
-  TextField1(
-      {Key? key, required this.textEditingController, required this.label,this.preffixWidget,this.isNumber,this.maxlines})
-      : super(key: key);
+  TextField1({
+    Key? key,
+     this.textEditingController,
+    required this.label,
+    this.preffixWidget,
+    this.isNumber,
+    this.maxlines,
+    this.hintText,
+    this.onTap,
+    this.initialValue,
+    this.onChanged,
+
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(KAppX.theme.current);
-    KTextStyles kTextStyles =KTextStyles();
+    KTextStyles kTextStyles = KTextStyles();
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,style: kTextStyles.s14PrimaryBold,),
+        Text(
+          label,
+          style: kTextStyles.s14PrimaryBold,
+        ),
         5.toVerticalSizedBox,
         TextFormField(
-
+          initialValue: initialValue ,
           controller: textEditingController,
-          maxLines: maxlines??1,
+          maxLines: maxlines ?? 1,
+          onChanged: onChanged,
+
           // style: TextStyle(
           //   color: currentTheme.themeBox.colors.white,
           // ),
           decoration: InputDecoration(
             suffix: preffixWidget ?? SizedBox(),
+            hintText: hintText ?? '',
             border: OutlineInputBorder(
-
-              borderSide: BorderSide(color: currentTheme.themeBox.colors.primary.withOpacity(0.5)),
+              borderSide: BorderSide(
+                  color: currentTheme.themeBox.colors.primary.withOpacity(0.5)),
               borderRadius: BorderRadius.circular(12.toAutoScaledWidth),
             ),
             enabledBorder: OutlineInputBorder(
@@ -55,13 +76,19 @@ class TextField1 extends ConsumerWidget {
             //   color: currentTheme.themeBox.colors.white,
             // ),
           ),
-          keyboardType:isNumber!=null?TextInputType.number: TextInputType.text,
+          keyboardType:
+              isNumber != null ? TextInputType.number : TextInputType.text,
           validator: (value) {
             if (value!.isEmpty) {
               return 'Cannot be empty';
             } else {
               return null;
             }
+          },
+          onTap: () {
+            KAppX.services.haptics.hapticLight();
+
+            onTap?.call();
           },
         ),
       ],

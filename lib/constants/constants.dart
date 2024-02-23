@@ -13,19 +13,21 @@
    static const String motherName ='mterName';
    static const String section ='section';
     static const String teacherId ='tchrId';
+    static const String passWord ='pasWrd';
     static const String id ='id';
     static const String createdAt ='crtdAt';
     static const String updatedAt ='updtAt';
-   static const String firstClass ='first';
-   static const String secondClass ='second';
-   static const String thirdClass ='Third';
-   static const String fourthClass ='fourth';
-   static const String fifthClass ='fifth';
-   static const String sixthClass ='sixth';
-   static const String sevenClass ='seven';
-   static const String eightClass ='eight';
-   static const String nineClass ='nine';
-   static const String tenClass ='ten';
+   static const String firstClass ='FIRST';
+   static const String secondClass ='SECOND';
+   static const String thirdClass ='THREE';
+   static const String fourthClass ='FOUR';
+   static const String fifthClass ='FIVE';
+   static const String sixthClass ='SIX';
+   static const String sevenClass ='SEVEN';
+   static const String eightClass ='EIGHT';
+   static const String nineClass ='NINE';
+   static const String tenClass ='TEN';
+    static const String teacher ='TEACHER';
    static const String uniqueIdNumber ='uin';
 
 

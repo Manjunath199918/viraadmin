@@ -23,14 +23,12 @@ class _SignUpState extends ConsumerState<SignUp>
 
     sizeAnimation = Tween<double>(begin: 1.0, end: 80.0).animate(controller)
       ..addListener(() {
-        setState(() {
-
-        });
-
+        setState(() {});
       });
 
     controller.repeat();
   }
+
   @override
   void dispose() {
     controller.dispose();
@@ -39,16 +37,17 @@ class _SignUpState extends ConsumerState<SignUp>
 
   final _formKey = GlobalKey<FormState>();
 
-
-
-
   @override
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(KAppX.theme.current);
 
-    KTextStyles kTextStyles =KTextStyles();
+    KTextStyles kTextStyles = KTextStyles();
     final params = ref.watch(_paramsProvider);
 
+    final state = ref.watch(_loginController(params));
+    final stateController = ref.read(_loginController(params).notifier);
+    TextEditingController userNameController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
 
     return SafeArea(
       child: Scaffold(
@@ -62,7 +61,7 @@ class _SignUpState extends ConsumerState<SignUp>
                   KCard(
                     height: 350.toAutoScaledHeight,
                     width: 360.toAutoScaledWidth,
-                    imageUrl: 'assets/login/verify_pin_bg.png',
+                    backgroundColor: currentTheme.themeBox.colors.primary,
                     paddingBottom: 0,
                     paddingRight: 0,
                     paddingTop: 0,
@@ -71,15 +70,31 @@ class _SignUpState extends ConsumerState<SignUp>
                     topRight: 0,
                     bottomLeft: 0,
                     bottomRight: 0,
-
-
                   ),
-
-
-                  Positioned( top:70.toAutoScaledHeight,left:20.toAutoScaledWidth,child: Text('Vira',style: kTextStyles.s24WhiteBold,textAlign: TextAlign.center,)),
+                  Positioned(
+                      top: 70.toAutoScaledHeight,
+                      left: 20.toAutoScaledWidth,
+                      child: Text(
+                        'Vira',
+                        style: kTextStyles.s24WhiteBold,
+                        textAlign: TextAlign.center,
+                      )),
                   10.toVerticalSizedBox,
-                  Positioned( top:110.toAutoScaledHeight,left:20.toAutoScaledWidth,child: Text('Your education partner in every \nstep of your life',style: kTextStyles.s14onBackgroundVariantRegular,)),
-                  Positioned(top:70.toAutoScaledHeight,left:250.toAutoScaledWidth,child: KImage(imageUrl:'assets/login/img_12.png' ,width: 100.toAutoScaledWidth,height: 100.toAutoScaledHeight,)),
+                  Positioned(
+                      top: 110.toAutoScaledHeight,
+                      left: 20.toAutoScaledWidth,
+                      child: Text(
+                        'Your education partner in every \nstep of your life',
+                        style: kTextStyles.s14onBackgroundVariantRegular,
+                      )),
+                  Positioned(
+                      top: 70.toAutoScaledHeight,
+                      left: 250.toAutoScaledWidth,
+                      child: KImage(
+                        imageUrl: 'assets/login/img_12.png',
+                        width: 100.toAutoScaledWidth,
+                        height: 100.toAutoScaledHeight,
+                      )),
                   Positioned(
                       top: 200.toAutoScaledHeight,
                       left: 20.toAutoScaledWidth,
@@ -104,8 +119,6 @@ class _SignUpState extends ConsumerState<SignUp>
                       child: DefaultTextStyle(
                         style: kTextStyles.s16WhiteBold,
                         child: AnimatedTextKit(
-
-
                           repeatForever: true,
                           isRepeatingAnimation: true,
                           animatedTexts: [
@@ -129,133 +142,106 @@ class _SignUpState extends ConsumerState<SignUp>
                       ),
                     ),
                   ),
-
-
-
-
-
                 ],
               ),
               Form(
                 key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding:  EdgeInsets.only(left: 20.toAutoScaledWidth,top: 10.toAutoScaledHeight),
-                      child: Text('UserName',style: kTextStyles.s16BlackBold,),
-                    ),
-                    Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 20.toAutoScaledWidth,vertical: 10.toAutoScaledHeight),
-                      child: Material(
-                        elevation: 5.toAutoScaledWidth,
-                        borderRadius: BorderRadius.circular(15.toAutoScaledWidth),
-                        child: TextFormField(
-                          decoration:  InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 10.toAutoScaledWidth,top: 15.toAutoScaledHeight),
-
-                            hintText: 'Ex:2017PBA01022',
-
-                            filled: true,
-                            fillColor: currentTheme.themeBox.colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.toAutoScaledWidth),
-                              borderSide:
-                              BorderSide.none,
-                            ),
-                            enabledBorder:  OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.toAutoScaledWidth),
-                              borderSide:
-                              BorderSide.none,
-
-
-                            ),
-
-                          ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          },
-                        ),
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 20.toAutoScaledWidth),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      10.toVerticalSizedBox,
+                      TextField1(
+                        textEditingController: userNameController,
+                        label: 'UserName',
+                        hintText: '2017PBA01022',
+                        onTap: () {},
                       ),
-                    ),
-                    Padding(
-                      padding:  EdgeInsets.only(left: 20.toAutoScaledWidth,top: 10.toAutoScaledHeight),
-                      child: Text('Password',style: kTextStyles.s16BlackBold,),
-                    ),
-                    Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 20.toAutoScaledWidth,vertical: 10.toAutoScaledHeight),
-                      child: Material(
-                        elevation: 5.toAutoScaledWidth,
-                        borderRadius: BorderRadius.circular(15.toAutoScaledWidth),
-                        child: TextFormField(
-                          decoration:  InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 10.toAutoScaledWidth,top: 15.toAutoScaledHeight),
+                      10.toVerticalSizedBox,
+                      TextField1(
+                       textEditingController: passwordController..text=state.passWord,
+                        label: 'Password',
+                        hintText: '15/04/2003',
 
-                            hintText: 'Ex:15/04/2003',
-                            filled: true,
-                            fillColor: currentTheme.themeBox.colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.toAutoScaledWidth),
-                              borderSide:
-                              BorderSide.none,
-                            ),
-                            enabledBorder:  OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.toAutoScaledWidth),
-                              borderSide:
-                              BorderSide.none,
-
-
-                            ),
-
-                          ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
+                        onTap: () async{
+                          FocusScope.of(context).requestFocus(new FocusNode());
+                          stateController.setDate(context,currentTheme);
                           },
-                        ),
                       ),
-                    ),
-
-
-
-                  ],
+                      10.toVerticalSizedBox,
+                    ],
+                  ),
                 ),
               ),
-
               Padding(
-                padding:  EdgeInsets.symmetric(horizontal: 20.toAutoScaledWidth,vertical: 30.toAutoScaledHeight),
+                padding: EdgeInsets.symmetric(
+                    horizontal: 20.toAutoScaledWidth,
+                    vertical: 30.toAutoScaledHeight),
                 child: KFlatButton(
+                  loadingWidget:CircularProgressIndicator() ,
+                    loading: state.status is Busy,
 
-                    color: currentTheme.themeBox.colors.darkBlue,
+                    height: 55.toAutoScaledHeight,
                     borderRadius: BorderRadius.circular(15.toAutoScaledWidth),
-                    borderStyle: Border.all(color: currentTheme.themeBox.colors.onSecondary,),
-                    child: Text('Submit',style: kTextStyles.s14WhiteBold,), onPressed: (){
-                  if (_formKey.currentState!.validate()) {
-
-                  }
-                }),
+                    borderStyle: Border.all(
+                      color: currentTheme.themeBox.colors.onSecondary,
+                    ),
+                    child: Text(
+                      'Sign In',
+                      style: kTextStyles.s16WhiteBold,
+                    ),
+                    onPressed: ()async {
+                      // DocumentReference users =
+                      // FirebaseFirestore.instance.collection('FACULTYPBAL').doc();
+                      //
+                      // await users.set({
+                      //   Constants.firstName:'Swapna',
+                      //   Constants.lastName:'Patil',
+                      //   Constants.dateOfBirth:DateTime.now(),
+                      //   Constants.createdAt:DateTime.now(),
+                      //   Constants.updatedAt:DateTime.now(),
+                      //   Constants.bloodGroup:'O-',
+                      //   Constants.schoolName:'Pba Central Cbse Sch Lingasugur',
+                      //   Constants.emergencyContact:'+919901142339',
+                      //   Constants.schoolCode:'PBAL',
+                      //   Constants.schoolId:'feqbvfebukhvwef',
+                      //   Constants.teacherId:'FACULTYPBAL002',
+                      //   Constants.passWord:'01/06/2003',
+                      //   Constants.id:users.id,
+                      //
+                      // });
+                      stateController.signUp('FACULTYPBAL001', '01/01/1999');
+                      // if (_formKey.currentState!.validate()) {
+                      //   stateController.signUp('ADMINPABL001', '01/01/1999');
+                      // }
+                    }),
               ),
               Padding(
-                padding:  EdgeInsets.symmetric(horizontal: 20.toAutoScaledWidth,vertical: 30.toAutoScaledHeight),
+                padding: EdgeInsets.symmetric(
+                    horizontal: 20.toAutoScaledWidth,
+                    vertical: 30.toAutoScaledHeight),
                 child: Container(
-                  width:320.toAutoScaledWidth,
+                  width: 320.toAutoScaledWidth,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text('Need help in login',style: kTextStyles.s14greyVariantBold,textAlign: TextAlign.center,
+                      Text(
+                        'Need help in login',
+                        style: kTextStyles.s14greyVariantBold,
+                        textAlign: TextAlign.center,
                       ),
-                      Text('Forgot Username?',style: kTextStyles.s12DarkBlueBold,textAlign: TextAlign.center,
-              ),
+                      Text(
+                        'Forgot Username?',
+                        style: kTextStyles.s12PrimaryBold,
+                        textAlign: TextAlign.center,
+                      ),
                     ],
                   ),
-                ),)
-
+                ),
+              )
             ],
           ),
         ),
@@ -263,6 +249,3 @@ class _SignUpState extends ConsumerState<SignUp>
     );
   }
 }
-
-
-

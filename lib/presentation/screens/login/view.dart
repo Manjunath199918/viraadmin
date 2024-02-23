@@ -1,13 +1,17 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:otp_autofill/otp_autofill.dart';
+import 'package:viraadmin/constants/constants.dart';
 import 'package:viraadmin/modules/data/core/theme/services/dimensional/dimensional.dart';
 import 'package:viraadmin/modules/domain/amenities/googleAnalytics/analytics.dart';
 import 'package:viraadmin/modules/domain/core/auth/auth.dart';
@@ -21,6 +25,7 @@ import 'package:viraadmin/presentation/core_widgets/form_fields/drop_down.dart';
 import 'package:viraadmin/presentation/core_widgets/image/custom_image.dart';
 import 'package:viraadmin/presentation/core_widgets/pressables/flat_button.dart';
 import 'package:viraadmin/presentation/core_widgets/scaffold/scaffold.dart';
+import 'package:viraadmin/presentation/core_widgets/textfields/textfields1.dart';
 
 import 'package:viraadmin/presentation/screens/home/view.dart';
 
@@ -56,7 +61,7 @@ class LoginScreen extends ConsumerWidget {
     });
 
     Widget type;
-    switch (0) {
+    switch (1) {
 
       case 0:
         type =   HomeScreen();

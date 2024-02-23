@@ -434,4 +434,42 @@ class Assets {
   /// Assets for home screen
   /// assets/home/img_11.png
   static const String roundArrowMark= "assets/home/img_11.png";
+
+
+  /// Assets for class select screen
+  /// assets/classes/eighth.png
+  static const String firstClass= "assets/classes/first.png";
+
+  /// Assets for class select screen
+  /// assets/classes/eighth.png
+  static const String secondClass= "assets/classes/second.png";
+  /// Assets for class select screen
+  /// assets/classes/eighth.png
+  static const String thirdClass= "assets/classes/third.png";
+  /// Assets for class select screen
+  /// assets/classes/eighth.png
+  static const String fourthClass= "assets/classes/fourth.png";
+  /// Assets for class select screen
+  /// assets/classes/eighth.png
+  static const String fifthClass= "assets/classes/fifth.png";
+  /// Assets for class select screen
+  /// assets/classes/eighth.png
+  static const String sixthClass= "assets/classes/sixth.png";
+
+  /// Assets for class select screen
+  /// assets/classes/eighth.png
+  static const String seventhClass= "assets/classes/seventh.png";
+
+
+  /// Assets for class select screen
+  /// assets/classes/eighth.png
+  static const String eightClass= "assets/classes/eighth.png";
+  /// Assets for class select screen
+  /// assets/classes/eighth.png
+  static const String ninethClass= "assets/classes/nineth.png";
+  /// Assets for class select screen
+  /// assets/classes/eighth.png
+  static const String tenthClass= "assets/classes/tenth.png";
+
+
 }

@@ -27,15 +27,16 @@ final _loginController = StateNotifierProvider.autoDispose
 });
 
 class _LoginState {
-  const _LoginState({
-    required this.status,
-    required this.phoneNumber,
-    required this.otpVerified,
-    required this.email,
-    required this.index,
-    required this.showOTPDialog,
-    required this.validPhoneNUmber
-  });
+  const _LoginState(
+      {required this.status,
+      required this.phoneNumber,
+      required this.otpVerified,
+      required this.email,
+      required this.index,
+      required this.showOTPDialog,
+      required this.validPhoneNUmber,
+      required this.userName,
+      required this.passWord});
 
   final Status status;
   final String phoneNumber;
@@ -44,18 +45,19 @@ class _LoginState {
   final bool showOTPDialog;
   final int index;
   final bool validPhoneNUmber;
+  final String userName, passWord;
 
   factory _LoginState.initial() {
     return _LoginState(
-      status: Idle(),
-      phoneNumber: '',
-      email: '',
-      otpVerified: false,
-      index: 0,
-      showOTPDialog: false,
-        validPhoneNUmber:true
-
-    );
+        status: Idle(),
+        phoneNumber: '',
+        email: '',
+        otpVerified: false,
+        index: 0,
+        showOTPDialog: false,
+        validPhoneNUmber: true,
+        userName: '',
+        passWord: '');
   }
 
   _LoginState copyWith({
@@ -66,16 +68,19 @@ class _LoginState {
     bool? showOTPDialog,
     String? email,
     bool? validPhoneNUmber,
+    String? userName,
+    String? passWord,
   }) {
     return _LoginState(
-      status: status ?? this.status,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
-      otpVerified: otpVerified ?? this.otpVerified,
-      index: index ?? this.index,
-      showOTPDialog: showOTPDialog ?? this.showOTPDialog,
-      email: email ?? this.email,
-        validPhoneNUmber:validPhoneNUmber??this.validPhoneNUmber
-    );
+        status: status ?? this.status,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        otpVerified: otpVerified ?? this.otpVerified,
+        index: index ?? this.index,
+        showOTPDialog: showOTPDialog ?? this.showOTPDialog,
+        email: email ?? this.email,
+        userName: userName ?? this.userName,
+        passWord: passWord ?? this.passWord,
+        validPhoneNUmber: validPhoneNUmber ?? this.validPhoneNUmber);
   }
 }
 
@@ -87,7 +92,7 @@ class _LoginController extends StateNotifier<_LoginState> {
 
   final AuthRepository _repository = AuthRepository();
   final persistentStorage = KPersistentStorage();
-  TextEditingController phoneNumberController =TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
 
   void _error(String message) {
     state = state.copyWith(status: Error(message));
@@ -106,13 +111,9 @@ class _LoginController extends StateNotifier<_LoginState> {
 
   OTPInteractor? _otpInteractor;
   OTPTextEditController? controller;
-  checkValidPhoneNumber(){
-    state =state.copyWith(
-      validPhoneNUmber: false
-    );
+  checkValidPhoneNumber() {
+    state = state.copyWith(validPhoneNUmber: false);
   }
-
-
 
   void _listenForOTP() {
     if (Platform.isIOS) {
@@ -128,7 +129,7 @@ class _LoginController extends StateNotifier<_LoginState> {
       );
 
       controller?.startListenRetriever(
-            (code) {
+        (code) {
           final exp = RegExp(r'(\d{6})');
           return exp.stringMatch(code ?? '') ?? '';
         },
@@ -138,11 +139,38 @@ class _LoginController extends StateNotifier<_LoginState> {
     }
   }
 
+  setDate(BuildContext context, var currentTheme) async {
+    String? date = await getDate(context, currentTheme);
+    state = state.copyWith(passWord: date);
+  }
+
+  Future<String?> getDate(BuildContext context, var currentTheme) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime(1999),
+      firstDate: DateTime(1990),
+      lastDate: DateTime(2030),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+            data: ThemeData.light().copyWith(
+              colorScheme: ColorScheme.light(
+                primary: currentTheme.themeBox.colors.primary,
+              ),
+            ),
+            child: child!);
+      },
+    );
+
+    if (pickedDate != null) {
+      String formattedDate = DateFormat('dd/MM/yyyy').format(pickedDate);
+      return formattedDate;
+    } else {
+      return null;
+    }
+  }
+
   void verifyPhone(String phone) async {
-
-
     if (phone.length != 10) {
-
       _error('Enter correct phone number.');
       _idle();
       return;
@@ -156,7 +184,6 @@ class _LoginController extends StateNotifier<_LoginState> {
       verificationCompleted: (credential) {},
       // timeout: Duration.zero,
       verificationFailed: (exception) {
-
         _error(exception.message ?? 'Enter correct phone number.');
         _idle();
         return;
@@ -167,14 +194,7 @@ class _LoginController extends StateNotifier<_LoginState> {
 
         // open the OTP screen
         _listenForOTP();
-        state = state.copyWith(
-          status: Idle(),
-          index: 1
-
-        );
-
-
-
+        state = state.copyWith(status: Idle(), index: 1);
       },
       codeAutoRetrievalTimeout: (verificationId) {},
       forceResendingToken: _resendToken,
@@ -198,13 +218,13 @@ class _LoginController extends StateNotifier<_LoginState> {
     );
 
     response.resolve(
-          (s) {
-            state = state.copyWith(status: Idle());
-            state = state.copyWith(index: 2);
+      (s) {
+        state = state.copyWith(status: Idle());
+        state = state.copyWith(index: 2);
         // _fetchUserDetails();
         KAppX.router.pop();
       },
-          (f) {
+      (f) {
         _error(f.message ?? 'Enter the correct OTP.');
         _idle();
       },
@@ -219,7 +239,7 @@ class _LoginController extends StateNotifier<_LoginState> {
     );
 
     response.resolve(
-          (s) async {
+      (s) async {
         await persistentStorage.store<UserModel>(
           key: 'user_details',
           data: s.user,
@@ -233,7 +253,7 @@ class _LoginController extends StateNotifier<_LoginState> {
         state = state.copyWith(status: Idle());
         KAppX.router.replaceNamed('/bottomNavigator');
       },
-          (f) {
+      (f) {
         // user has not signed up
         if (f.statusCode == 404) {
           initialize();
@@ -251,7 +271,7 @@ class _LoginController extends StateNotifier<_LoginState> {
     );
 
     response.resolve(
-          (s) {
+      (s) {
         initialize();
         state = state.copyWith(
           status: Idle(),
@@ -259,7 +279,7 @@ class _LoginController extends StateNotifier<_LoginState> {
           index: 2,
         );
       },
-          (f) {
+      (f) {
         _error('Something went wrong!');
         _idle();
       },
@@ -282,21 +302,20 @@ class _LoginController extends StateNotifier<_LoginState> {
   void createUser(int index) async {
     CreateUserRequest request;
 
-    String? tokenss =await KNotificationBox.instance.token;
-
+    String? tokenss = await KNotificationBox.instance.token;
 
     try {
       request = CreateUserRequest(
-          birthYear: (DateTime.now().year - int.parse(ageController!.text.trim()))
-              .toString(),
+          birthYear:
+              (DateTime.now().year - int.parse(ageController!.text.trim()))
+                  .toString(),
           displayName: nameController!.text.trim(),
           emailId: 'user@credwise.co.in',
           gender: index == 0 ? 'Male' : 'Female',
           phoneNumber: state.phoneNumber,
           profilePhotoUrl: profilePhotoUrl,
           referredBy: referCode!.text.trim(),
-          fcmToken:tokenss
-      );
+          fcmToken: tokenss);
     } catch (e) {
       if (nameController!.text.trim() == '') {
         _error('Please enter your name');
@@ -312,11 +331,12 @@ class _LoginController extends StateNotifier<_LoginState> {
       _idle();
       return;
     }
-    String? firebaseToken =await KAuth.instance.getters.token;
-    final response = await _repository.createUser(request: request,firebaseToken:firebaseToken! );
+    String? firebaseToken = await KAuth.instance.getters.token;
+    final response = await _repository.createUser(
+        request: request, firebaseToken: firebaseToken!);
 
     response.resolve(
-          (s) async {
+      (s) async {
         await persistentStorage.store<UserModel>(
           key: 'user_details',
           data: s.user,
@@ -337,11 +357,46 @@ class _LoginController extends StateNotifier<_LoginState> {
               name: 'ios_new_user', parameters: {'user_details': s.user});
         }
       },
-          (f) {
+      (f) {
         _error(f.message ?? 'Something went wrong!');
         _idle();
       },
     );
   }
 
+  void signUp(String userName, String passWord) async {
+    String schoolCode = userName.substring(7, 11);
+
+    CollectionReference users =
+        FirebaseFirestore.instance.collection('FACULTY$schoolCode');
+    QuerySnapshot faculty =
+        await users.where(Constants.teacherId, isEqualTo: userName).get();
+    if (faculty.docs.isEmpty) {
+      _error('Please check your credential Once');
+      _idle();
+    } else {
+      Map<dynamic, dynamic> data = faculty.docs.first.data() as Map;
+      if (data[Constants.passWord] == passWord) {
+
+      }else{
+        _error('Incorrect Password \n P.s:- The password is your date of birth');
+        _idle();
+      }
+    }
+    // log(data.docs.first.data().toString());
+
+    // String classCode = userName.substring(4, 8);
+    // Map classString ={
+    //   '01':Constants.firstClass,
+    //   '02':Constants.secondClass,
+    //   '03':Constants.thirdClass,
+    //   '04':Constants.fourthClass,
+    //   '05':Constants.fifthClass,
+    //   '06':Constants.sixthClass,
+    //   '07':Constants.sevenClass,
+    //   '08':Constants.eightClass,
+    //   '09':Constants.nineClass,
+    //   '10':Constants.tenClass,
+    // };
+  }
 }

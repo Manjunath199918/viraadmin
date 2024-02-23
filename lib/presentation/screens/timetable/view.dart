@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:quick_actions/quick_actions.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:viraadmin/constants/assets.dart';
 import 'package:viraadmin/modules/data/core/theme/services/dimensional/dimensional.dart';
 import 'package:viraadmin/modules/domain/core/storage/persistent_storage/persistent_storage.dart';
 import 'package:viraadmin/modules/domain/repository/auth/auth_repository.dart';
@@ -13,15 +13,14 @@ import 'package:viraadmin/presentation/core_widgets/custom_textstyle/CustomTextS
 import 'package:viraadmin/presentation/core_widgets/image/custom_image.dart';
 import 'package:viraadmin/presentation/core_widgets/pressables/flat_button.dart';
 import 'package:viraadmin/presentation/core_widgets/scaffold/scaffold.dart';
-import 'package:viraadmin/presentation/core_widgets/seprater/line.dart';
 import 'package:viraadmin/presentation/core_widgets/textfields/textfields1.dart';
 import 'package:viraadmin/utils/app_extensions/app_extension.dart';
 import 'package:viraadmin/utils/helper/custom_extensions/state.dart';
-import 'package:viraadmin/utils/helper/helper.dart';
-part 'widgets/table_view.dart';
-part 'widgets/select_class.dart';
-part 'widgets/create_timetableevent.dart';
+
 part 'controller.dart';
+part 'widgets/create_timetableevent.dart';
+part 'widgets/select_class.dart';
+part 'widgets/table_view.dart';
 class TimeTableScreen extends ConsumerWidget {
   final int? index;
   TimeTableScreen({Key? key, this.index}) : super(key: key);

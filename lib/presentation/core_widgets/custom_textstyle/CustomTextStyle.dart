@@ -168,6 +168,15 @@ class KTextStyles {
           currentTheme.themeBox.fontSizes.s12,
     );
   }
+  TextStyle get s12PrimaryBold {
+    return TextStyle(
+      color: currentTheme.themeBox.colors.primary,
+      fontWeight: currentTheme.themeBox.fontWeights.wBold,
+      fontSize: currentTheme.themeBox.fontSizes.s12,
+      height: currentTheme.themeBox.fontLineHeights.lh18 /
+          currentTheme.themeBox.fontSizes.s12,
+    );
+  }
   TextStyle get s36GreyishBlueRegular {
     return TextStyle(
       color: currentTheme.themeBox.colors.greyishBlue,

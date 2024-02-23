@@ -44,7 +44,7 @@ class DioTokenInvalidInterceptor extends Interceptor {
       },
     );
     await _authRepository.fetchUserDetailsByPhone(
-        request: FetchUserDetailsByPhoneRequest(phone: user!.phoneNumber));
+        request: FetchUserDetailsByPhoneRequest(phone: user!.id));
     final requestOptions = response.requestOptions;
 
     requestOptions.headers['authorization'] =
