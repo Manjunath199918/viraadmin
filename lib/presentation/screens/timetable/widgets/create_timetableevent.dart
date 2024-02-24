@@ -19,45 +19,56 @@ class CreateTimeTableEvent extends ConsumerWidget {
 
 
     return  SafeArea(
-        child: KScaffold(
-            appBar:  KAppBar(
+        child: WillPopScope(
+          onWillPop: () async {
+            if (state.index == 2 ){
+              stateController.setIndex(1);
 
-              title: Text('Upload Event',style: kTextStyles.s20WhiteBold,),
-            ),
-            body: SingleChildScrollView(
-              child: Padding(
-                padding:  EdgeInsets.symmetric(horizontal: 20.toAutoScaledWidth),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    10.toVerticalSizedBox,
-                    SizedBox(
-                      width: 340.toAutoScaledWidth,
-                      child: Row(
-                        children: [
-                          SizedBox(
-                              width: 150.toAutoScaledWidth,child: TextField1(textEditingController: eventname,label: 'Starting Time')),
-                          10.toHorizontalSizedBox,
-                          SizedBox(
-                              width: 150.toAutoScaledWidth,child: TextField1(textEditingController: eventname,label: 'Ending Time')),
-                        ],
-                      ),
-                    ),
+              return false;
+            } else {
+              return true;
+            }
+          },
+          child: KScaffold(
+              appBar:  KAppBar(
 
-
-
-                    10.toVerticalSizedBox,
-                    TextField1(textEditingController: eventname,label: 'Title'),
-                    50.toVerticalSizedBox,
-                    KFlatButton(onPressed: (){},height: 55.toAutoScaledHeight,child: Text('Upload',style: kTextStyles.s16WhiteBold,),)
-
-
-
-
-                  ],
-                ),
+                title: Text('Upload Event',style: kTextStyles.s20WhiteBold,),
               ),
-            )));
+              body: SingleChildScrollView(
+                child: Padding(
+                  padding:  EdgeInsets.symmetric(horizontal: 20.toAutoScaledWidth),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      10.toVerticalSizedBox,
+                      SizedBox(
+                        width: 340.toAutoScaledWidth,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                                width: 150.toAutoScaledWidth,child: TextField1(textEditingController: eventname,label: 'Starting Time')),
+                            10.toHorizontalSizedBox,
+                            SizedBox(
+                                width: 150.toAutoScaledWidth,child: TextField1(textEditingController: eventname,label: 'Ending Time')),
+                          ],
+                        ),
+                      ),
+
+
+
+                      10.toVerticalSizedBox,
+                      TextField1(textEditingController: eventname,label: 'Title'),
+                      50.toVerticalSizedBox,
+                      KFlatButton(onPressed: (){},height: 55.toAutoScaledHeight,child: Text('Upload',style: kTextStyles.s16WhiteBold,),)
+
+
+
+
+                    ],
+                  ),
+                ),
+              )),
+        ));
   }
 }

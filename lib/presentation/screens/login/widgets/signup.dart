@@ -215,10 +215,10 @@ class _SignUpState extends ConsumerState<SignUp>
                       //   Constants.id:users.id,
                       //
                       // });
-                     stateController.signUp('FACULTYPBAL001', '01/06/1999');
-                      // if (_formKey.currentState!.validate()) {
-                      //   stateController.signUp(userNameController.text.trim().toUpperCase(), passwordController.text.trim());
-                      // }
+                     // stateController.signUp('FACULTYPBAL001', '01/06/1999');
+                      if (_formKey.currentState!.validate()) {
+                        stateController.signUp(userNameController.text.trim().toUpperCase(), passwordController.text.trim());
+                      }
                     }),
               ),
               Padding(

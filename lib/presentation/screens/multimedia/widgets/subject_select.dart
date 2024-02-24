@@ -13,192 +13,273 @@ class SelectSubject extends ConsumerWidget {
     final params = _VSControllerParams(index: index);
     final state = ref.watch(_vsProvider(params));
     final stateController = ref.read(_vsProvider(params).notifier);
-    return
-      SafeArea(
-        child: KScaffold(
-          appBar: KAppBar(
-            elevation: 0,
-
-            backgroundColor: currentTheme.themeBox.colors.primary,
-            title: Text(
-              'Select Subject',
-              style: kTextStyles.s18WhiteBold,
-            ),
+    return SafeArea(
+      child: KScaffold(
+        appBar: KAppBar(
+          elevation: 0,
+          backgroundColor: currentTheme.themeBox.colors.primary,
+          title: Text(
+            'Select Subject',
+            style: kTextStyles.s18WhiteBold,
           ),
-
-          body:
-          SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InkWell(
-                  onTap: (){
-                    KAppX.router.navigateToPage(MediaRoute());
-
-                  },
-                  child: KCard(
-                    imageUrl: 'assets/subject/kannada.jpg',
-                    height: 200.toAutoScaledHeight,
-                    width: 320.toAutoScaledWidth,
-                    child: Padding(
-                      padding:  EdgeInsets.only(top: 140.toAutoScaledHeight,),
-                      child: Container(
-                        color: Colors.black.withOpacity(0.2),
-                        child: Padding(
-                          padding:  EdgeInsets.only(left: 8.toAutoScaledWidth,top: 8.toAutoScaledHeight),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Kannada',style: kTextStyles.s20BlackBold,),
-                              Text('Prof.Kalinga maharaj',style: kTextStyles.s12WhiteBold,),
-                            ],
-                          ),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              InkWell(
+                onTap: () {
+                  stateController.moveToMediaRoute(0);
+                },
+                child: KCard(
+                  imageUrl: 'assets/subject/kannada.jpg',
+                  height: 200.toAutoScaledHeight,
+                  width: 320.toAutoScaledWidth,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: 140.toAutoScaledHeight,
+                    ),
+                    child: Container(
+                      color: Colors.black.withOpacity(0.2),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 8.toAutoScaledWidth,
+                            top: 8.toAutoScaledHeight),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Kannada',
+                              style: kTextStyles.s20BlackBold,
+                            ),
+                            Text(
+                              'Prof.Kalinga maharaj',
+                              style: kTextStyles.s12WhiteBold,
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
                 ),
-                KCard(
+              ),
+              InkWell(
+                onTap: () {
+                  stateController.moveToMediaRoute(1);
+                },child: KCard(
                   imageUrl: 'assets/subject/english.jpg',
                   height: 200.toAutoScaledHeight,
                   width: 320.toAutoScaledWidth,
                   child: Padding(
-                    padding:  EdgeInsets.only(top: 140.toAutoScaledHeight,),
+                    padding: EdgeInsets.only(
+                      top: 140.toAutoScaledHeight,
+                    ),
                     child: Container(
                       color: Colors.black.withOpacity(0.2),
                       child: Padding(
-                        padding:  EdgeInsets.only(left: 8.toAutoScaledWidth,top: 8.toAutoScaledHeight),
+                        padding: EdgeInsets.only(
+                            left: 8.toAutoScaledWidth, top: 8.toAutoScaledHeight),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('English',style: kTextStyles.s20BlackBold,),
-                            Text('Prof.Name',style: kTextStyles.s12WhiteBold,),
+                            Text(
+                              'English',
+                              style: kTextStyles.s20BlackBold,
+                            ),
+                            Text(
+                              'Prof.Name',
+                              style: kTextStyles.s12WhiteBold,
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
                 ),
-                KCard(
+              ),
+              InkWell(
+                onTap: () {
+                  stateController.moveToMediaRoute(2);
+                }, child: KCard(
                   imageUrl: 'assets/subject/hindiimage.jpeg',
                   height: 200.toAutoScaledHeight,
                   width: 320.toAutoScaledWidth,
                   child: Padding(
-                    padding:  EdgeInsets.only(top: 140.toAutoScaledHeight,),
+                    padding: EdgeInsets.only(
+                      top: 140.toAutoScaledHeight,
+                    ),
                     child: Container(
                       color: Colors.black.withOpacity(0.2),
                       child: Padding(
-                        padding:  EdgeInsets.only(left: 8.toAutoScaledWidth,top: 8.toAutoScaledHeight),
+                        padding: EdgeInsets.only(
+                            left: 8.toAutoScaledWidth, top: 8.toAutoScaledHeight),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Hindi',style: kTextStyles.s20BlackBold,),
-                            Text('Prof.Name',style: kTextStyles.s12WhiteBold,),
+                            Text(
+                              'Hindi',
+                              style: kTextStyles.s20BlackBold,
+                            ),
+                            Text(
+                              'Prof.Name',
+                              style: kTextStyles.s12WhiteBold,
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
                 ),
-                KCard(
+              ),
+              InkWell(
+                onTap: () {
+                  stateController.moveToMediaRoute(3);
+                }, child: KCard(
                   imageUrl: 'assets/subject/science.jpeg',
                   height: 200.toAutoScaledHeight,
                   width: 320.toAutoScaledWidth,
                   child: Padding(
-                    padding:  EdgeInsets.only(top: 140.toAutoScaledHeight,),
+                    padding: EdgeInsets.only(
+                      top: 140.toAutoScaledHeight,
+                    ),
                     child: Container(
                       color: Colors.black.withOpacity(0.2),
                       child: Padding(
-                        padding:  EdgeInsets.only(left: 8.toAutoScaledWidth,top: 8.toAutoScaledHeight),
+                        padding: EdgeInsets.only(
+                            left: 8.toAutoScaledWidth, top: 8.toAutoScaledHeight),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Science',style: kTextStyles.s20BlackBold,),
-                            Text('Prof.Rudresh ',style: kTextStyles.s12WhiteBold,),
+                            Text(
+                              'Science',
+                              style: kTextStyles.s20BlackBold,
+                            ),
+                            Text(
+                              'Prof.Rudresh ',
+                              style: kTextStyles.s12WhiteBold,
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
                 ),
-                KCard(
+              ),
+              InkWell(
+                onTap: () {
+                  stateController.moveToMediaRoute(4);
+                },child: KCard(
                   imageUrl: 'assets/subject/socialscience.png',
                   height: 200.toAutoScaledHeight,
                   width: 320.toAutoScaledWidth,
                   child: Padding(
-                    padding:  EdgeInsets.only(top: 140.toAutoScaledHeight,),
+                    padding: EdgeInsets.only(
+                      top: 140.toAutoScaledHeight,
+                    ),
                     child: Container(
                       color: Colors.black.withOpacity(0.2),
                       child: Padding(
-                        padding:  EdgeInsets.only(left: 8.toAutoScaledWidth,top: 8.toAutoScaledHeight),
+                        padding: EdgeInsets.only(
+                            left: 8.toAutoScaledWidth, top: 8.toAutoScaledHeight),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(' Social Science',style: kTextStyles.s20BlackBold,),
-                            Text('Prof.Name',style: kTextStyles.s12WhiteBold,),
+                            Text(
+                              ' Social Science',
+                              style: kTextStyles.s20BlackBold,
+                            ),
+                            Text(
+                              'Prof.Name',
+                              style: kTextStyles.s12WhiteBold,
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
                 ),
-                KCard(
+              ),
+              InkWell(
+                onTap: () {
+                  stateController.moveToMediaRoute(5);
+                }, child: KCard(
                   imageUrl: 'assets/subject/sanskrit.jpeg',
                   height: 200.toAutoScaledHeight,
                   width: 320.toAutoScaledWidth,
                   child: Padding(
-                    padding:  EdgeInsets.only(top: 140.toAutoScaledHeight,),
+                    padding: EdgeInsets.only(
+                      top: 140.toAutoScaledHeight,
+                    ),
                     child: Container(
                       color: Colors.black.withOpacity(0.2),
                       child: Padding(
-                        padding:  EdgeInsets.only(left: 8.toAutoScaledWidth,top: 8.toAutoScaledHeight),
+                        padding: EdgeInsets.only(
+                            left: 8.toAutoScaledWidth, top: 8.toAutoScaledHeight),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Sanskrit',style: kTextStyles.s20BlackBold,),
-                            Text('Prof.Name',style: kTextStyles.s12WhiteBold,),
+                            Text(
+                              'Sanskrit',
+                              style: kTextStyles.s20BlackBold,
+                            ),
+                            Text(
+                              'Prof.Name',
+                              style: kTextStyles.s12WhiteBold,
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
                 ),
-                KCard(
+              ),
+              InkWell(
+                onTap: () {
+                  stateController.moveToMediaRoute(6);
+                },child: KCard(
                   imageUrl: 'assets/subject/ptimage.jpeg',
                   height: 200.toAutoScaledHeight,
                   width: 320.toAutoScaledWidth,
                   child: Padding(
-                    padding:  EdgeInsets.only(top: 140.toAutoScaledHeight,),
+                    padding: EdgeInsets.only(
+                      top: 140.toAutoScaledHeight,
+                    ),
                     child: Container(
                       color: Colors.black.withOpacity(0.2),
                       child: Padding(
-                        padding:  EdgeInsets.only(left: 8.toAutoScaledWidth,top: 8.toAutoScaledHeight),
+                        padding: EdgeInsets.only(
+                            left: 8.toAutoScaledWidth, top: 8.toAutoScaledHeight),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Physical Education',style: kTextStyles.s20BlackBold,),
-                            Text('Prof.Name',style: kTextStyles.s12WhiteBold,),
+                            Text(
+                              'Physical Education',
+                              style: kTextStyles.s20BlackBold,
+                            ),
+                            Text(
+                              'Prof.Name',
+                              style: kTextStyles.s12WhiteBold,
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
                 ),
-
-
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
   }
 
   Widget contentBar(KThemeState currentTheme, String url, String name,

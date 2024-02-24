@@ -103,6 +103,7 @@ class _LoginController extends StateNotifier<_LoginState> {
   }
 
   void init() async {
+    setIndex();
     //requestTrackingPermission();
   }
   setIndex()async{
@@ -386,7 +387,7 @@ class _LoginController extends StateNotifier<_LoginState> {
     state =state.copyWith(
       status: Busy()
     );
-   // try{
+    try{
     CollectionReference users =
         FirebaseFirestore.instance.collection('FACULTY$schoolCode');
     QuerySnapshot faculty =
@@ -420,14 +421,14 @@ class _LoginController extends StateNotifier<_LoginState> {
         _idle();
       }
     }
-   // }catch(e){
-   //   state =state.copyWith(
-   //
-   //       status: Idle()
-   //   );
-   //   _error('Something Went Wrong \n Please try again later');
-   //   _idle();
-   // }
+   }catch(e){
+     state =state.copyWith(
+
+         status: Idle()
+     );
+     _error('Something Went Wrong \n Please try again later');
+     _idle();
+   }
     // log(data.docs.first.data().toString());
 
     // String classCode = userName.substring(4, 8);

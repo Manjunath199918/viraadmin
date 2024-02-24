@@ -114,12 +114,7 @@ class KRoutesRegistry {
       path: KPathsRegistry.profileScreen,
 
     ),
-    CustomRoute(
-      page: MediaScreen,
-      transitionsBuilder: KRouteTransitionBuilders.none,
-      path: KPathsRegistry.mediaScreen,
 
-    ),
     CustomRoute(
       page: TimeTableScreen,
       transitionsBuilder: KRouteTransitionBuilders.none,

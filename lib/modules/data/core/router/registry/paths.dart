@@ -21,7 +21,6 @@ class KPathsRegistry {
   static const multiMediaScreen = '/multiMediaScreen';
   static const subjectScreen = '/subjectScreen';
   static const profileScreen = '/ProfileScreen';
-  static const mediaScreen = '/MediaScreen';
   static const timeTableScreen = '/TimeTableScreen';
   static const noticeBoard ='/NoticeBoard';
   static const createMedia ='/CreateMedia';

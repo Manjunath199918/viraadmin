@@ -2,8 +2,10 @@ part of 'view.dart';
 
 class _VSControllerParams extends Equatable {
   final int? index;
+  final String? collectionName;
   _VSControllerParams({
     this.index,
+    this.collectionName,
   });
   @override
   List<Object> get props => [];
@@ -26,18 +28,24 @@ class _ViewState {
   const _ViewState({
     required this.status,
     required this.index,
+    required this.collectionName,
+    required this.pickedFile,
 
   });
 
   final Status status;
   final int index;
+  final String collectionName;
+  final String? pickedFile;
 
 
 
   factory _ViewState.initial() {
     return _ViewState(
         status: Idle(),
-        index:0
+        index:0,
+        collectionName:'',
+      pickedFile: ''
 
 
 
@@ -47,13 +55,17 @@ class _ViewState {
 
   _ViewState copyWith({
     Status? status,
-    int? index
+    int? index,
+    String? collectionName,
+    String? pickedFile
 
 
   }) {
     return _ViewState(
         status: status ?? this.status,
-        index: index??this.index
+        index: index??this.index,
+        collectionName:collectionName??this.collectionName,
+        pickedFile:pickedFile??this.pickedFile
 
     );
   }
@@ -79,10 +91,35 @@ class _ViewController extends StateNotifier<_ViewState> {
   }
 
   init(){
-    state =state.copyWith(index:params.index);
+    state =state.copyWith(index:params.index,collectionName: params.collectionName);
   }
   void setIndex(int i){
     state =state.copyWith(index:i);
+  }
+  pickFile()async{
+
+try{
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'pdf', 'doc','jpeg','png'],
+    );
+    log('eralivbkjhvbahjkvshjsdvba');
+
+    log(result.toString());
+    log('eralivbkjhvbahjkvshjsdvba');
+
+    if (result != null) {
+      File file = File(result.files.single.path!);
+      state =state.copyWith(
+        pickedFile: result.files.single.path!.split('/').last
+      );
+    } else {
+      _error("No file selected");
+      _idle();
+    }}catch(e){
+  _error("$e error detected");
+  _idle();
+}
   }
   Future<String?> getDate(BuildContext context,var currentTheme )async{
     DateTime? pickedDate = await showDatePicker(

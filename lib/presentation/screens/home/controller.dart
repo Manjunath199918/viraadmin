@@ -26,18 +26,22 @@ class _ViewState {
   const _ViewState({
     required this.status,
     required this.index,
+    required this.user,
+
 
   });
 
   final Status status;
   final int index;
+  final UserModel? user;
 
 
 
   factory _ViewState.initial() {
     return _ViewState(
         status: Idle(),
-        index:0
+        index:0,
+      user: null,
 
 
 
@@ -47,13 +51,15 @@ class _ViewState {
 
   _ViewState copyWith({
     Status? status,
-    int? index
+    int? index,
+    UserModel? user,
 
 
   }) {
     return _ViewState(
         status: status ?? this.status,
-        index: index??this.index
+        index: index??this.index,
+        user:user??this.user
 
     );
   }
@@ -78,8 +84,17 @@ class _ViewController extends StateNotifier<_ViewState> {
     state = state.copyWith(status: Idle());
   }
 
-  init(){
+  init()async{
     state =state.copyWith(index:params.index);
+    await getUserInfo();
+  }
+  getUserInfo()async{
+    final UserModel? userInfo = await persistentStorage.retrieve(
+        key: 'user_details',
+        decoder: (val) {
+          return UserModel.fromJson(jsonDecode(val));
+        });
+    state =state.copyWith(user:userInfo);
   }
   onDashBoardPressed(){
     KAppX.router.navigate(DashBoardRoute());

@@ -1,21 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
-import 'package:viraadmin/modules/data/core/router/intrinsic_router/intrinsic_router.dart';
-import 'package:viraadmin/modules/data/core/theme/services/dimensional/dimensional.dart';
-import 'package:viraadmin/modules/domain/core/storage/persistent_storage/persistent_storage.dart';
-import 'package:viraadmin/modules/domain/repository/auth/auth_repository.dart';
-import 'package:viraadmin/presentation/core_widgets/app_bar/app_bar.dart';
-import 'package:viraadmin/presentation/core_widgets/card/card.dart';
-import 'package:viraadmin/presentation/core_widgets/custom_textstyle/CustomTextStyle.dart';
-import 'package:viraadmin/presentation/core_widgets/image/custom_image.dart';
-import 'package:viraadmin/presentation/core_widgets/pressables/flat_button.dart';
-import 'package:viraadmin/presentation/core_widgets/scaffold/scaffold.dart';
-import 'package:viraadmin/utils/app_extensions/app_extension.dart';
-import 'package:viraadmin/utils/helper/custom_extensions/state.dart';
-import 'package:viraadmin/utils/helper/helper.dart';
-part 'controller.dart';
+part of '../view.dart';
 
 class MediaScreen extends ConsumerWidget {
   final int? index;
@@ -57,8 +40,8 @@ class MediaScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListView.builder(
-                shrinkWrap: true,
-                itemCount: 5,
+                  shrinkWrap: true,
+                  itemCount: 5,
                   physics: NeverScrollableScrollPhysics(),
 
                   itemBuilder: (context,i){ return Padding(

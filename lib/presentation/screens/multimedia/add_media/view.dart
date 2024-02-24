@@ -1,4 +1,8 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -17,19 +21,22 @@ import 'package:viraadmin/utils/app_extensions/app_extension.dart';
 import 'package:viraadmin/utils/helper/custom_extensions/state.dart';
 
 part 'controller.dart';
+TextEditingController titleController =TextEditingController();
+TextEditingController descriptionController =TextEditingController();
 class CreateMedia extends ConsumerWidget {
   final int? index;
-  const CreateMedia({Key? key, this.index}) : super(key: key);
+  final String? collectionName;
+  const CreateMedia({Key? key, this.index,this.collectionName}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(KAppX.theme.current);
 
     KTextStyles kTextStyles = KTextStyles();
 
-    final params = _VSControllerParams(index: index);
+    final params = _VSControllerParams(index: index,collectionName: collectionName);
     final state = ref.watch(_vsProvider(params));
     final stateController = ref.read(_vsProvider(params).notifier);
-    TextEditingController titleController =TextEditingController();
+
 
    
     
@@ -46,23 +53,47 @@ class CreateMedia extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    KCard(
-                      paddingRight: 0,
-                      paddingLeft: 0,
-                      backgroundColor: currentTheme.themeBox.colors.backgroundVariant,
-                      height: 250.toAutoScaledHeight,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.cloud_upload_outlined,size: 100.toDouble(),),
-                          Text('Click to upload files',style: kTextStyles.s20PrimaryBold,),
-                        ],
+                   state.pickedFile!.isEmpty? InkWell(
+                     onTap: (){
+                       stateController.pickFile();
+
+                     },
+                     child: KCard(
+                        paddingRight: 0,
+                        paddingLeft: 0,
+                        backgroundColor: currentTheme.themeBox.colors.backgroundVariant,
+                        height: 250.toAutoScaledHeight,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.cloud_upload_outlined,size: 100.toDouble(),),
+                            Text('Click to upload files',style: kTextStyles.s20PrimaryBold,),
+                          ],
+                        ),
                       ),
-                    ),
+                   ):KCard(
+                     paddingRight: 0,
+                     paddingLeft: 0,
+                     backgroundColor: currentTheme.themeBox.colors.backgroundVariant,
+                     height: 250.toAutoScaledHeight,
+                     child: Column(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         state.pickedFile!.split('.').last =='pdf'?Icon(Icons.picture_as_pdf_outlined,size: 100.toDouble(),):Icon(Icons.image,size: 100.toDouble(),),
+                         Text(state.pickedFile!,style: kTextStyles.s20PrimaryBold,),
+                       ],
+                     ),
+                   ),
                     20.toVerticalSizedBox,
                     TextField1(textEditingController: titleController,label: 'Title'),
-                    240.toVerticalSizedBox,
-                    KFlatButton(child: Text('Upload Event',style: kTextStyles.s16WhiteBold,), onPressed: (){},height: 55.toAutoScaledHeight,)
+                    20.toVerticalSizedBox,
+                    TextField1(textEditingController: descriptionController,label: 'Description',maxlines: 5,),
+                    80.toVerticalSizedBox,
+                    KFlatButton(onPressed: (){},height: 55.toAutoScaledHeight,
+                      loadingWidget:CircularProgressIndicator(
+                        color: currentTheme.themeBox.colors.white,
+                      ) ,
+                      loading: state.status is Busy,child: Text('Upload Event',style: kTextStyles.s16WhiteBold,),)
 
 
 

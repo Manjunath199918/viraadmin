@@ -18,7 +18,6 @@ import 'package:viraadmin/presentation/screens/fee_details/view.dart';
 import 'package:viraadmin/presentation/screens/homework/view.dart';
 import 'package:viraadmin/presentation/screens/login/view.dart';
 import 'package:viraadmin/presentation/screens/multimedia/add_media/view.dart';
-import 'package:viraadmin/presentation/screens/multimedia/mediaScreen/view.dart';
 import 'package:viraadmin/presentation/screens/multimedia/view.dart';
 import 'package:viraadmin/presentation/screens/notice_board/add_notice/view.dart';
 import 'package:viraadmin/presentation/screens/notice_board/view.dart';

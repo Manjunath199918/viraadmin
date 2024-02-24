@@ -72,9 +72,7 @@ class _SplashController extends StateNotifier<_SplashState> {
         },
       );
     } else if (isLoggedIn) {
-      routes = [OnboardingRoute()];
-
-     // routes = [BottomNavigatorRoute()];
+      routes = [LoginRoute()];
     } else {
       //routes = [OnboardingRoute()];
 

@@ -83,6 +83,31 @@ class _ViewController extends StateNotifier<_ViewState> {
   void setIndex(int i){
     state =state.copyWith(index:i);
   }
+  moveToTimeTable(int i,int index){
+    state =state.copyWith(index:i);
+    Map classString ={
+      0:Constants.firstClass,
+      1:Constants.secondClass,
+      2:Constants.thirdClass,
+      3:Constants.fourthClass,
+      4:Constants.fifthClass,
+      5:Constants.sixthClass,
+      6:Constants.sevenClass,
+      7:Constants.eightClass,
+      8:Constants.nineClass,
+      9:Constants.tenClass,
+    };
+
+
+
+
+
+  }
+  getTimetable(){
+
+
+
+  }
   Future<String?> getDate(BuildContext context,var currentTheme )async{
     DateTime? pickedDate = await showDatePicker(
       context: context,

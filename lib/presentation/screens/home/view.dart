@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,7 @@ import 'package:viraadmin/modules/data/core/router/intrinsic_router/intrinsic_ro
 import 'package:viraadmin/modules/data/core/theme/services/dimensional/dimensional.dart';
 import 'package:viraadmin/modules/domain/core/storage/persistent_storage/persistent_storage.dart';
 import 'package:viraadmin/modules/domain/repository/auth/auth_repository.dart';
+import 'package:viraadmin/modules/domain/repository/auth/models/user.dart';
 import 'package:viraadmin/presentation/core_widgets/app_bar/app_bar.dart';
 import 'package:viraadmin/presentation/core_widgets/card/card.dart';
 import 'package:viraadmin/presentation/core_widgets/custom_textstyle/CustomTextStyle.dart';
@@ -50,10 +53,10 @@ class HomeScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Pragati',
+                      '${state.user?.firstName} ${state.user?.lastName}' ,
                       style: kTextStyles.s16PrimaryBold,
                     ),
-                    Text('Class 5', style: kTextStyles.s14greyVariantBold)
+                    Text('${state.user?.schoolName}', style: kTextStyles.s14greyVariantBold)
                   ],
                 ),
               ),

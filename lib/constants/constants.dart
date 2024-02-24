@@ -29,6 +29,36 @@
    static const String tenClass ='TEN';
     static const String teacher ='TEACHER';
    static const String uniqueIdNumber ='uin';
+    static const String kannada ='KANNADA';
+    static const String english ='ENGLISH';
+    static const String hindi ='HINDI';
+    static const String science ='SCIENCE';
+    static const String socialScience ='SOCIALSCIENCE';
+    static const String sanskrit ='SANSKRIT';
+    static const String physicalEducation ='PHYEDU';
+    static const Map classString ={
+      0:Constants.firstClass,
+      1:Constants.secondClass,
+      2:Constants.thirdClass,
+      3:Constants.fourthClass,
+      4:Constants.fifthClass,
+      5:Constants.sixthClass,
+      6:Constants.sevenClass,
+      7:Constants.eightClass,
+      8:Constants.nineClass,
+      9:Constants.tenClass,
+    };
+    static const Map subjectString ={
+      0:Constants.kannada ,
+      1:Constants.english,
+      2:Constants.hindi,
+      3:Constants.science,
+      4:Constants.socialScience,
+      5:Constants.sanskrit,
+      6:Constants.physicalEducation
+
+    };
+
 
 
 

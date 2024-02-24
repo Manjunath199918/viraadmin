@@ -31,7 +31,7 @@ class SelectClass extends ConsumerWidget {
               crossAxisCount: 2, crossAxisSpacing: 0.1, mainAxisSpacing: 0.1),
           itemBuilder: (BuildContext context, int index) {
             return classCard(currentTheme,index,(){
-              stateController.setIndex(1);
+              stateController.moveToTimeTable(1,index);
             });
           },
         ),
