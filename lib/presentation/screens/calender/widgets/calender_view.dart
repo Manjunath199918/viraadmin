@@ -20,22 +20,22 @@ class CalenderView extends ConsumerWidget {
             style: kTextStyles.s20WhiteBold,
           ),
         ),
-        floatingActionButton: Padding(
-          padding:  EdgeInsets.only(left: 20.toAutoScaledWidth),
-          child: KFlatButton(child: Text('Upload Event for this day',style: kTextStyles.s16WhiteBold,), onPressed: (){
-            // stateController.setIndex(1);
-          },height: 55.toAutoScaledHeight,),
-        ),
+        floatingActionButton: KFlatButton(onPressed: (){
+          stateController.setIndex(1);
+        },height: 55.toAutoScaledHeight,
+          width:360.toAutoScaledWidth,child: Text('Upload Event',style: kTextStyles.s16WhiteBold,),),
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
               KCard(
                 backgroundColor: currentTheme.themeBox.colors.blueVarient,
 
                 child: TableCalendar(
-                  focusedDay: DateTime.now(),
+
+                  focusedDay: state.selectedDate!,
                   firstDay: DateTime.utc(2023, 6, 1),
                   lastDay: DateTime.utc(2024, 6, 1),
                   headerStyle:  HeaderStyle(
@@ -57,7 +57,13 @@ class CalenderView extends ConsumerWidget {
                       }
                     },
                   ),
+                  onDaySelected: (day,fday){
+                    stateController.setDate(day);
+
+                  },
+                  selectedDayPredicate: (day)=>isSameDay(day,state.selectedDate),
                   startingDayOfWeek: StartingDayOfWeek.monday,
+
                   calendarStyle: CalendarStyle(
                     weekendTextStyle: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -76,6 +82,14 @@ class CalenderView extends ConsumerWidget {
                         color: currentTheme.themeBox.colors.black),
                   ),
                 ),
+              ),
+              SizedBox(
+                width: 360.toAutoScaledWidth,
+                child: Center(child: Text('Events for the date : ${DateFormat('dd/MM/yyyy').format(state.selectedDate!)}',maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: kTextStyles.s16PrimaryBold.copyWith(
+                    decoration: TextDecoration.underline
+                  ),),),
               ),
               ListView.builder(
                 shrinkWrap: true,

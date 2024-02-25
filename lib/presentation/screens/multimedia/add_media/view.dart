@@ -1,14 +1,18 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:viraadmin/modules/data/core/theme/services/dimensional/dimensional.dart';
 import 'package:viraadmin/modules/domain/core/storage/persistent_storage/persistent_storage.dart';
 import 'package:viraadmin/modules/domain/repository/auth/auth_repository.dart';
+import 'package:viraadmin/modules/domain/repository/auth/models/user.dart';
 import 'package:viraadmin/presentation/core_widgets/app_bar/app_bar.dart';
 import 'package:viraadmin/presentation/core_widgets/card/card.dart';
 import 'package:viraadmin/presentation/core_widgets/custom_textstyle/CustomTextStyle.dart';
@@ -53,7 +57,7 @@ class CreateMedia extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                   state.pickedFile!.isEmpty? InkWell(
+                   state.pickedFilePath!.isEmpty? InkWell(
                      onTap: (){
                        stateController.pickFile();
 
@@ -71,7 +75,8 @@ class CreateMedia extends ConsumerWidget {
                           ],
                         ),
                       ),
-                   ):KCard(
+                   ):
+                   KCard(
                      paddingRight: 0,
                      paddingLeft: 0,
                      backgroundColor: currentTheme.themeBox.colors.backgroundVariant,
@@ -79,8 +84,8 @@ class CreateMedia extends ConsumerWidget {
                      child: Column(
                        mainAxisAlignment: MainAxisAlignment.center,
                        children: [
-                         state.pickedFile!.split('.').last =='pdf'?Icon(Icons.picture_as_pdf_outlined,size: 100.toDouble(),):Icon(Icons.image,size: 100.toDouble(),),
-                         Text(state.pickedFile!,style: kTextStyles.s20PrimaryBold,),
+                         state.pickedFilePath!.split('.').last =='pdf'?Icon(Icons.picture_as_pdf_outlined,size: 100.toDouble(),):Icon(Icons.image,size: 100.toDouble(),),
+                         Text(state.pickedFilePath!,style: kTextStyles.s20PrimaryBold,),
                        ],
                      ),
                    ),
@@ -89,7 +94,9 @@ class CreateMedia extends ConsumerWidget {
                     20.toVerticalSizedBox,
                     TextField1(textEditingController: descriptionController,label: 'Description',maxlines: 5,),
                     80.toVerticalSizedBox,
-                    KFlatButton(onPressed: (){},height: 55.toAutoScaledHeight,
+                    KFlatButton(onPressed: (){
+                      stateController.uploadFile(titleController.text.trim(),descriptionController.text.trim());
+                    },height: 55.toAutoScaledHeight,
                       loadingWidget:CircularProgressIndicator(
                         color: currentTheme.themeBox.colors.white,
                       ) ,

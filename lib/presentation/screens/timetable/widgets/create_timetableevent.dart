@@ -2,6 +2,7 @@ part of '../view.dart';
 TextEditingController startTime =TextEditingController();
 TextEditingController endTime =TextEditingController();
 TextEditingController eventname =TextEditingController();
+TextEditingController assignee = TextEditingController();
 class CreateTimeTableEvent extends ConsumerWidget {
   final int? index;
   const CreateTimeTableEvent({Key? key, this.index}) : super(key: key);
@@ -47,10 +48,19 @@ class CreateTimeTableEvent extends ConsumerWidget {
                         child: Row(
                           children: [
                             SizedBox(
-                                width: 150.toAutoScaledWidth,child: TextField1(textEditingController: eventname,label: 'Starting Time')),
+                                width: 150.toAutoScaledWidth,child: TextField1(textEditingController: startTime..text=state.startTime!,label: 'Starting Time',
+                              onTap: () async{
+                                FocusScope.of(context).requestFocus( FocusNode());
+                                stateController.getStartTime(context);
+                              },),
+                            ),
                             10.toHorizontalSizedBox,
                             SizedBox(
-                                width: 150.toAutoScaledWidth,child: TextField1(textEditingController: eventname,label: 'Ending Time')),
+                                width: 150.toAutoScaledWidth,child: TextField1(textEditingController: endTime..text=state.endTime!,label: 'Ending Time',
+                              onTap: () async{
+                                FocusScope.of(context).requestFocus( FocusNode());
+                                stateController.getEndTime(context);
+                              },)),
                           ],
                         ),
                       ),
@@ -59,8 +69,15 @@ class CreateTimeTableEvent extends ConsumerWidget {
 
                       10.toVerticalSizedBox,
                       TextField1(textEditingController: eventname,label: 'Title'),
-                      50.toVerticalSizedBox,
-                      KFlatButton(onPressed: (){},height: 55.toAutoScaledHeight,child: Text('Upload',style: kTextStyles.s16WhiteBold,),)
+                      10.toVerticalSizedBox,
+                      TextField1(textEditingController: assignee,label: 'Assignee'),
+                      300.toVerticalSizedBox,
+                      Align(
+                          alignment:Alignment.bottomCenter,child: KFlatButton(
+                        loadingWidget:CircularProgressIndicator(
+                          color: currentTheme.themeBox.colors.white,
+                        ) ,
+                        loading: state.status is Busy,onPressed: (){},height: 55.toAutoScaledHeight,child: Text('Upload',style: kTextStyles.s16WhiteBold,),))
 
 
 

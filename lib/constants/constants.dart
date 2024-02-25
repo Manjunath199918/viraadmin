@@ -36,6 +36,7 @@
     static const String socialScience ='SOCIALSCIENCE';
     static const String sanskrit ='SANSKRIT';
     static const String physicalEducation ='PHYEDU';
+    static const String calenderEvents ='CALENDEREVENTS';
     static const Map classString ={
       0:Constants.firstClass,
       1:Constants.secondClass,

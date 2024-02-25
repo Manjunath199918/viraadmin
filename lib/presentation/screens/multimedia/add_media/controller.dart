@@ -15,8 +15,6 @@ final _paramsProvider = Provider<_VSControllerParams>((ref) {
   throw UnimplementedError();
 });
 
-
-
 final _vsProvider = StateNotifierProvider.autoDispose
     .family<_ViewController, _ViewState, _VSControllerParams>((ref, params) {
   final stateController = _ViewController(params: params);
@@ -29,45 +27,42 @@ class _ViewState {
     required this.status,
     required this.index,
     required this.collectionName,
+    required this.pickedFilePath,
     required this.pickedFile,
-
+    required this.user,
   });
 
   final Status status;
   final int index;
   final String collectionName;
-  final String? pickedFile;
-
-
+  final String? pickedFilePath;
+  final File? pickedFile;
+  final UserModel? user;
 
   factory _ViewState.initial() {
     return _ViewState(
         status: Idle(),
-        index:0,
-        collectionName:'',
-      pickedFile: ''
-
-
-
-
-    );
+        index: 0,
+        collectionName: '',
+        pickedFilePath: '',
+        pickedFile: null,
+        user: null);
   }
 
-  _ViewState copyWith({
-    Status? status,
-    int? index,
-    String? collectionName,
-    String? pickedFile
-
-
-  }) {
+  _ViewState copyWith(
+      {Status? status,
+      int? index,
+      String? collectionName,
+      String? pickedFilePath,
+      File? pickedFile,
+      UserModel? user}) {
     return _ViewState(
         status: status ?? this.status,
-        index: index??this.index,
-        collectionName:collectionName??this.collectionName,
-        pickedFile:pickedFile??this.pickedFile
-
-    );
+        index: index ?? this.index,
+        collectionName: collectionName ?? this.collectionName,
+        pickedFilePath: pickedFilePath ?? this.pickedFilePath,
+        pickedFile: pickedFile ?? this.pickedFile,
+        user: user ?? this.user);
   }
 }
 
@@ -79,8 +74,7 @@ class _ViewController extends StateNotifier<_ViewState> {
 
   final AuthRepository _repository = AuthRepository();
   final persistentStorage = KPersistentStorage();
-  TextEditingController phoneNumberController =TextEditingController();
-
+  TextEditingController phoneNumberController = TextEditingController();
 
   void _error(String message) {
     state = state.copyWith(status: Error(message));
@@ -90,38 +84,92 @@ class _ViewController extends StateNotifier<_ViewState> {
     state = state.copyWith(status: Idle());
   }
 
-  init(){
-    state =state.copyWith(index:params.index,collectionName: params.collectionName);
+  init() {
+    state = state.copyWith(
+        index: params.index, collectionName: params.collectionName);
+    getUserInfo();
   }
-  void setIndex(int i){
-    state =state.copyWith(index:i);
+
+  getUserInfo() async {
+    final UserModel? userInfo = await persistentStorage.retrieve(
+        key: 'user_details',
+        decoder: (val) {
+          return UserModel.fromJson(jsonDecode(val));
+        });
+    state = state.copyWith(user: userInfo);
   }
-  pickFile()async{
 
-try{
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['jpg', 'pdf', 'doc','jpeg','png'],
-    );
-    log('eralivbkjhvbahjkvshjsdvba');
+  void setIndex(int i) {
+    state = state.copyWith(index: i);
+  }
 
-    log(result.toString());
-    log('eralivbkjhvbahjkvshjsdvba');
-
-    if (result != null) {
-      File file = File(result.files.single.path!);
-      state =state.copyWith(
-        pickedFile: result.files.single.path!.split('/').last
+  pickFile() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'pdf', 'doc', 'jpeg', 'png'],
       );
-    } else {
-      _error("No file selected");
+
+      if (result != null) {
+        File file = File(result.files.single.path!);
+        state = state.copyWith(
+            pickedFile: File(result.files.single.path!),
+            pickedFilePath: result.files.single.path!.split('/').last);
+      } else {
+        _error("No file selected");
+        _idle();
+      }
+    } catch (e) {
+      _error("$e error detected");
       _idle();
-    }}catch(e){
-  _error("$e error detected");
-  _idle();
-}
+    }
   }
-  Future<String?> getDate(BuildContext context,var currentTheme )async{
+
+  uploadFile(
+    String title,
+    String des,
+  ) async {
+
+    if (state.pickedFilePath!.isEmpty) {
+      _error('error in uploading... try again later');
+      _idle();
+      return;
+    }
+    try {
+      state =state.copyWith(
+          status: Busy()
+      );
+
+      Reference storageReference = FirebaseStorage.instance.ref();
+      Reference ref = storageReference.child(DateTime.now().millisecondsSinceEpoch.toString()+state.pickedFile!.path);
+      UploadTask storageUploadTask = ref.putFile(state.pickedFile!);
+      String imageUrl = await (await storageUploadTask).ref.getDownloadURL();
+
+      DocumentReference timetable =
+          FirebaseFirestore.instance.collection('${state.collectionName}Media').doc();
+      await timetable.set({
+        'title': title,
+        'description': des,
+        'fileUrl': imageUrl,
+        'date': DateTime.now(),
+        'uploadedBy': '${state.user!.firstName} ${state.user!.lastName}',
+        'uploadedId': state.user!.id
+      });
+      state =state.copyWith(
+          status: Idle()
+      );
+      KAppX.router.pop();
+    } catch (e) {
+
+      state =state.copyWith(
+          status: Idle()
+      );
+      _error('error in uploading... try again later');
+      _idle();
+    }
+  }
+
+  Future<String?> getDate(BuildContext context, var currentTheme) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -132,23 +180,17 @@ try{
             data: ThemeData.light().copyWith(
               colorScheme: ColorScheme.light(
                 primary: currentTheme.themeBox.colors.darkBlue,
-
               ),
-
             ),
-            child:child!
-        );
+            child: child!);
       },
     );
 
     if (pickedDate != null) {
-      String formattedDate =
-      DateFormat('yyyy-MM-dd').format(pickedDate);
+      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
       return formattedDate;
     } else {
       return null;
     }
   }
-
-
 }

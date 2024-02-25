@@ -3,13 +3,19 @@ TextEditingController titleController =TextEditingController();
 
 TextEditingController descController =TextEditingController();
 class AddNotice extends ConsumerWidget {
-  AddNotice();
+  final int? index;
+  AddNotice({Key? key, this.index}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(KAppX.theme.current);
 
     KTextStyles kTextStyles = KTextStyles();
+
+    final params = _VSControllerParams(index: index);
+    final state = ref.watch(_vsProvider(params));
+    final stateController = ref.read(_vsProvider(params).notifier);
 
     return SafeArea(
         child: KScaffold(
@@ -25,6 +31,25 @@ class AddNotice extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    state.pickedFilePath!.isEmpty? InkWell(
+                      onTap: (){
+                        stateController.pickFile();
+
+                      },
+                      child: KCard(
+                        paddingRight: 0,
+                        paddingLeft: 0,
+                        backgroundColor: currentTheme.themeBox.colors.backgroundVariant,
+                        height: 250.toAutoScaledHeight,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.cloud_upload_outlined,size: 100.toDouble(),),
+                            Text('Click to upload files',style: kTextStyles.s20PrimaryBold,),
+                          ],
+                        ),
+                      ),
+                    ):
                     KCard(
                       paddingRight: 0,
                       paddingLeft: 0,
@@ -33,8 +58,8 @@ class AddNotice extends ConsumerWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.cloud_upload_outlined,size: 100.toDouble(),),
-                          Text('Click to upload image',style: kTextStyles.s20PrimaryBold,),
+                          state.pickedFilePath!.split('.').last =='pdf'?Icon(Icons.picture_as_pdf_outlined,size: 100.toDouble(),):Icon(Icons.image,size: 100.toDouble(),),
+                          Text(state.pickedFilePath!,style: kTextStyles.s20PrimaryBold,),
                         ],
                       ),
                     ),
