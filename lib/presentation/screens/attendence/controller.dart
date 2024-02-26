@@ -13,7 +13,6 @@ final _paramsProvider = Provider<_VSControllerParams>((ref) {
   throw UnimplementedError();
 });
 
-
 final _vsProvider = StateNotifierProvider.autoDispose
     .family<_ViewController, _ViewState, _VSControllerParams>((ref, params) {
   final stateController = _ViewController(params: params);
@@ -25,36 +24,30 @@ class _ViewState {
   const _ViewState({
     required this.status,
     required this.index,
-
+    required this.user,
+    required this.standard,
   });
 
   final Status status;
   final int index;
-
-
+  final UserModel? user;
+  final int? standard;
 
   factory _ViewState.initial() {
-    return _ViewState(
-        status: Idle(),
-        index:0
-
-
-
-
-    );
+    return _ViewState(status: Idle(), index: 0, standard: 0, user: null);
   }
 
   _ViewState copyWith({
     Status? status,
-    int? index
-
-
+    int? index,
+    UserModel? user,
+    int? standard,
   }) {
     return _ViewState(
         status: status ?? this.status,
-        index: index??this.index
-
-    );
+        index: index ?? this.index,
+        user: user ?? this.user,
+        standard: standard ?? this.standard);
   }
 }
 
@@ -65,9 +58,9 @@ class _ViewController extends StateNotifier<_ViewState> {
   Status get status => state.status;
 
   final AuthRepository _repository = AuthRepository();
+  SqliteService sqliteService = SqliteService();
   final persistentStorage = KPersistentStorage();
-  TextEditingController phoneNumberController =TextEditingController();
-
+  TextEditingController phoneNumberController = TextEditingController();
 
   void _error(String message) {
     state = state.copyWith(status: Error(message));
@@ -77,13 +70,66 @@ class _ViewController extends StateNotifier<_ViewState> {
     state = state.copyWith(status: Idle());
   }
 
-  init(){
-    state =state.copyWith(index:params.index);
+  init() async {
+    state = state.copyWith(index: params.index);
+    await getUserInfo();
+    getStudents();
+    // await initDataBase();
   }
-  void setIndex(int i){
-    state =state.copyWith(index:i);
+
+  getUserInfo() async {
+    final UserModel? userInfo = await persistentStorage.retrieve(
+        key: 'user_details',
+        decoder: (val) {
+          return UserModel.fromJson(jsonDecode(val));
+        });
+    state = state.copyWith(user: userInfo);
   }
-  Future<String?> getDate(BuildContext context,var currentTheme )async{
+
+  initDataBase() async {
+    bool isDatabaseExist = await sqliteService.isDatabaseExists();
+    if (!isDatabaseExist) {
+      await sqliteService.initializeDB(state.user!.schoolCode);
+    }
+  }
+
+  void moveToAttendance(int i, int index) async {
+    state = state.copyWith(index: i, standard: index);
+  }
+
+  getStudents() async {
+    List<Map> students = await sqliteService.getData(
+        '${state.user!.schoolCode}${Constants.classString[state.standard]}${Constants.students}');
+    if (students.isEmpty) {
+      CollectionReference st = FirebaseFirestore.instance.collection(
+          '${state.user!.schoolCode}${Constants.classString[state.standard]}${Constants.students}');
+      QuerySnapshot faculty = await st.get();
+
+      for (var element in faculty.docs) {
+        Map<String, dynamic> data = element.data() as Map<String, dynamic>;
+        StudentDetails singleStudent = StudentDetails.fromJson(data);
+        await sqliteService.insertData(
+            '${state.user!.schoolCode}${Constants.classString[state.standard]}${Constants.students}',
+            singleStudent.toJson());
+      }
+      List studentslist = await sqliteService.getData(
+          '${state.user!.schoolCode}${Constants.classString[state.standard]}${Constants.students}');
+    } else {
+      List studentslist = await sqliteService.getData(
+          '${state.user!.schoolCode}${Constants.classString[state.standard]}${Constants.students}');
+      studentslist.sort((a, b) {
+        var adate = a['updtAt'];
+        var bdate = b['updtAt'];
+        return adate.compareTo(bdate);
+      });
+    }
+  }
+
+  void setIndex(int i) {
+    state = state.copyWith(index: i);
+  }
+
+  Future<String?> getDate(BuildContext context, var currentTheme) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -94,23 +140,17 @@ class _ViewController extends StateNotifier<_ViewState> {
             data: ThemeData.light().copyWith(
               colorScheme: ColorScheme.light(
                 primary: currentTheme.themeBox.colors.darkBlue,
-
               ),
-
             ),
-            child:child!
-        );
+            child: child!);
       },
     );
 
     if (pickedDate != null) {
-      String formattedDate =
-      DateFormat('yyyy-MM-dd').format(pickedDate);
+      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
       return formattedDate;
     } else {
       return null;
     }
   }
-
-
 }

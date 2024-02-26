@@ -1,11 +1,21 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:viraadmin/constants/assets.dart';
+import 'package:viraadmin/constants/constants.dart';
 import 'package:viraadmin/modules/data/core/theme/services/dimensional/dimensional.dart';
 import 'package:viraadmin/modules/domain/core/storage/persistent_storage/persistent_storage.dart';
 import 'package:viraadmin/modules/domain/repository/auth/auth_repository.dart';
+import 'package:viraadmin/modules/domain/repository/auth/models/user.dart';
+import 'package:viraadmin/modules/domain/repository/profile/my_profile_repository.dart';
 import 'package:viraadmin/presentation/core_widgets/app_bar/app_bar.dart';
 import 'package:viraadmin/presentation/core_widgets/card/card.dart';
 import 'package:viraadmin/presentation/core_widgets/custom_textstyle/CustomTextStyle.dart';
@@ -19,6 +29,7 @@ import 'package:viraadmin/utils/helper/helper.dart';
 part 'controller.dart';
 part 'widgets/class_select.dart';
 part 'widgets/attendance_view.dart';
+part 'sqlitedb.dart';
 
 
 

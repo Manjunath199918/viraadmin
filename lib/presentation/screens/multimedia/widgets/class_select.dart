@@ -111,6 +111,10 @@ class SelectClass extends ConsumerWidget {
     return InkWell(
       onTap: onPressed,
       child: KCard(
+        paddingLeft: 10,
+        paddingRight: 5,
+        paddingBottom: 10,
+        paddingTop: 10,
         height: 150.toAutoScaledHeight,
         width: 160.toAutoScaledWidth,
         backgroundColor: currentTheme.themeBox.colors.primary,

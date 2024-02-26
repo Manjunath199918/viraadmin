@@ -10,6 +10,7 @@ part 'responses.dart';
 part 'models/address.dart';
 part 'models/user_address.dart';
 part 'models/user_details.dart';
+part 'models/students.dart';
 
 abstract class ProfileRepository extends Repository {
   factory ProfileRepository() => ProfileRepositoryImpl();

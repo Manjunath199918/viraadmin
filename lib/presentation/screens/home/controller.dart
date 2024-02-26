@@ -110,20 +110,28 @@ class _ViewController extends StateNotifier<_ViewState> {
     // });
 
       // DocumentReference users =
-      // FirebaseFirestore.instance.collection('PBALteachers').doc();
+      // FirebaseFirestore.instance.collection('PBALFIRST${Constants.students}').doc();
+      //
+      //
+      //
+      // // section
       //
       // await users.set({
-      //   Constants.firstName:'Manjunath',
+      //   Constants.firstName:'Swapna',
       //   Constants.lastName:'Patil',
+      //   Constants.fatherName:'Amaregouda',
+      //   Constants.motherName:'Sunita',
       //   Constants.dateOfBirth:DateTime.now(),
       //   Constants.createdAt:DateTime.now(),
       //   Constants.updatedAt:DateTime.now(),
       //   Constants.bloodGroup:'AB+',
       //   Constants.schoolName:'Pba Central Cbse Sch Lingasugur',
-      //   Constants.emergencyContact:'+919901148011',
+      //   Constants.emergencyContact:'+919901199011',
       //   Constants.schoolCode:'PBAL',
       //   Constants.schoolId:'feqbvfebukhvwef',
-      //   Constants.teacherId:'PBALFA001',
+      //   Constants.classId:'ytwqtcvjtywecfew',
+      //   Constants.section:'A',
+      //   Constants.uniqueIdNumber:'PBAL1701003',
       //   Constants.id:users.id,
       //
       // });

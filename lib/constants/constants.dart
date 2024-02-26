@@ -28,7 +28,8 @@
    static const String nineClass ='NINE';
    static const String tenClass ='TEN';
     static const String teacher ='TEACHER';
-   static const String uniqueIdNumber ='uin';
+   static const String uniqueIdNumber ='UIN';
+
     static const String kannada ='KANNADA';
     static const String english ='ENGLISH';
     static const String hindi ='HINDI';
@@ -37,6 +38,7 @@
     static const String sanskrit ='SANSKRIT';
     static const String physicalEducation ='PHYEDU';
     static const String calenderEvents ='CALENDEREVENTS';
+    static const String students ='STUDENTS';
     static const Map classString ={
       0:Constants.firstClass,
       1:Constants.secondClass,
